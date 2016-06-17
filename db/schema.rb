@@ -11,98 +11,102 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805010222) do
+ActiveRecord::Schema.define(version: 20160617070858) do
 
-  create_table "dashboard_reports", force: true do |t|
-    t.integer  "dashboard_id"
-    t.integer  "report_id"
-    t.integer  "report_index"
+  create_table "dashboard_reports", force: :cascade do |t|
+    t.integer  "dashboard_id", limit: 4
+    t.integer  "report_id",    limit: 4
+    t.integer  "report_index", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "dashboards", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "project_id"
-    t.string   "title"
-    t.integer  "template_id"
+  create_table "dashboards", force: :cascade do |t|
+    t.integer  "user_id",     limit: 4
+    t.integer  "project_id",  limit: 4
+    t.string   "title",       limit: 255
+    t.integer  "template_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "datasource_types", force: true do |t|
-    t.string   "name"
+  create_table "datasource_types", force: :cascade do |t|
+    t.string   "name",             limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "datasource_class"
+    t.string   "datasource_class", limit: 255
   end
 
-  create_table "datasources", force: true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.text     "encrypted_config"
+  create_table "datasources", force: :cascade do |t|
+    t.integer  "user_id",             limit: 4
+    t.string   "name",                limit: 255
+    t.text     "encrypted_config",    limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "datasource_type_id"
+    t.integer  "datasource_type_id",  limit: 4
+    t.string   "encrypted_config_iv", limit: 255
   end
 
-  create_table "global_datasources", force: true do |t|
-    t.string   "name"
-    t.text     "encrypted_config"
-    t.integer  "datasource_type_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "projects", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "user_id"
+  create_table "global_datasources", force: :cascade do |t|
+    t.string   "name",               limit: 255
+    t.text     "encrypted_config",   limit: 65535
+    t.integer  "datasource_type_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "reports", force: true do |t|
-    t.integer  "user_id"
-    t.string   "title"
-    t.string   "report_type"
-    t.integer  "datasource_id"
-    t.text     "config"
+  create_table "projects", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.string   "description", limit: 255
+    t.integer  "user_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cache_time"
-    t.string   "description"
-    t.text     "filters"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.integer  "user_id",         limit: 4
+    t.string   "title",           limit: 255
+    t.string   "report_type",     limit: 255
+    t.integer  "datasource_id",   limit: 4
+    t.text     "config",          limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "cache_time",      limit: 4
+    t.string   "description",     limit: 255
+    t.text     "filters",         limit: 65535
     t.boolean  "sharing_enabled"
-    t.text     "sharing_config"
-    t.integer  "project_id"
-    t.text     "script"
+    t.text     "sharing_config",  limit: 65535
+    t.integer  "project_id",      limit: 4
+    t.text     "script",          limit: 65535
     t.boolean  "starred"
   end
 
-  create_table "taggings", force: true do |t|
-    t.integer  "tag_id"
-    t.integer  "taggable_id"
-    t.string   "taggable_type"
-    t.integer  "tagger_id"
-    t.string   "tagger_type"
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id",        limit: 4
+    t.integer  "taggable_id",   limit: 4
+    t.string   "taggable_type", limit: 255
+    t.integer  "tagger_id",     limit: 4
+    t.string   "tagger_type",   limit: 255
     t.string   "context",       limit: 128
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
 
-  create_table "tags", force: true do |t|
-    t.string "name"
+  create_table "tags", force: :cascade do |t|
+    t.string  "name",           limit: 255
+    t.integer "taggings_count", limit: 4,   default: 0
   end
 
-  create_table "users", force: true do |t|
-    t.string   "email"
-    t.string   "password_digest"
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",           limit: 255
+    t.string   "password_digest", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
+    t.string   "name",            limit: 255
     t.boolean  "admin"
     t.boolean  "locked"
   end
