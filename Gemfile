@@ -1,10 +1,16 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0'
+# Manage environment variables easily (for development and testing) (needs to be at the top)
+# gem 'dotenv', '~> 2.1', '>= 2.1.1'
+gem 'dotenv-rails', :groups => [:development, :test]
 
-gem 'mysql2'
+# gem 'rails', '4.0.0'
+gem 'rails', '4.2.6'
+
+gem 'mysql2', '~> 0.3.18'
 gem 'sqlite3'
-gem 'attr_encrypted'
+# gem 'attr_encrypted'
+gem 'attr_encrypted', '~> 3.0', '>= 3.0.1'
 gem 'sequel'
 gem 'backbone-on-rails'
 gem 'bootstrap-datepicker-rails'
@@ -17,9 +23,7 @@ gem 'acts-as-taggable-on'
 
 gem 'better_errors'
 gem "binding_of_caller"
-gem "rspec-rails", "~> 2.12.0"
-gem "factory_girl_rails", "~> 3.2.0"
-gem "guard-rspec", "~> 0.7.0"  
+# gem "guard-rspec", "~> 0.7.0"
 
 gem 'jasmine', :git => "git://github.com/pivotal/jasmine-gem.git"
 gem "jasminerice", :git => 'https://github.com/bradphelan/jasminerice.git'
@@ -46,7 +50,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', '~> 3.1.5'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -59,3 +63,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use debugger
 # gem 'debugger'
+
+# Interactive debugging
+gem 'byebug', '~> 9.0', '>= 9.0.5'

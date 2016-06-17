@@ -11,3 +11,34 @@ http://i.imgur.com/SB1XjVP.png
 == Copyright
 
 Copyright (c) 2014 Saadullah Saeed. See LICENSE.txt for further details.
+
+== Contributing
+To set up a dev environment do the following
+* Clone this repository
+* Make sure rvm is installed (This is optional, but a good way to manage the dependencies for the project)
+* Use .ruby-gemset and .ruby-version to set this up.
+* This repository requires ruby 2.3.1 (recommended)
+* Make sure bundler gem is installed and run bundle install
+* Run rake db:schema:load to load up the app migrations
+* For taggable run rake acts_as_taggable_on_engine:install:migrations
+* Run rake db:migrate for the other migrations
+* Now go into the rails console and create an admin user
+** To create a new user run the following (replace the values with yours):
+*** user = User.create(name: "***", email: "***@**.com", password: "***", admin: true)
+* create a .env file from .env.example in the root of the repository (change the values in there as needed.)
+* To load test data, good idea to use this: http://datacharmer.blogspot.com/2015/09/sample-employees-database-migrated-to.html
+*** When loading the db, if you have a later version of mysql, you might need to comment out the storage engine parts
+* Create a test user to use with chai
+* Create a datasource type with the following:
+** DatasourceType.create(name: "Mysql", datasource_class: "mysql")
+
+
+== UPDATING ==
+* Make sure to run rake db:migrate to add new fields
+* attr_encrypted and decrypted might not work after updating. A convenience method has been created to update the datasource, this is a rake task
+
+== TO DEPLOY
+* Every value in .env.example should be set
+
+== TO DO
+* Read the entire readme for: https://github.com/attr-encrypted/attr_encrypted
