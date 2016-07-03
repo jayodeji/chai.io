@@ -1,9 +1,9 @@
 class HomeController < ApplicationController
-  
-  skip_before_filter :require_login
-  before_filter :auto_login
-  
+
+  skip_before_action :authenticate_user!
+
   def index
+    redirect_to new_user_session_path
   end
-  
+
 end

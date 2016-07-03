@@ -3,8 +3,10 @@ require 'chai_io/report/report'
 class ReportsController < DashboardController
   include ChaiIo::Report
 
-  before_filter :require_login, :except => [:public]
-  before_filter :check_embed
+  # before_filter :require_login, :except => [:public]
+  before_action :authenticate_user!, :except => [:public]
+  # before_filter :check_embed
+  before_action :check_embed
 
 
   #GET /reports/:id

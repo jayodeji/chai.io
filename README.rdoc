@@ -42,3 +42,4 @@ To set up a dev environment do the following
 
 == TO DO
 * Read the entire readme for: https://github.com/attr-encrypted/attr_encrypted
+* [DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead. get rid of this deprecation msg that occurs when migration is run

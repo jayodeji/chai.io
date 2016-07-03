@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :require_login
+  before_action :authenticate_user!
 
 
   def load_current_project
@@ -40,12 +40,6 @@ class ApplicationController < ActionController::Base
     def auto_login
       redirect_to projects_path if is_logged_in?
     end
-
-
-    def current_user
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    end
-    helper_method :current_user
 
 
     def render_404

@@ -1,8 +1,25 @@
 ChaiIo::Application.routes.draw do
 
-  root :to => 'home#index'
-  get '/' => 'home#index'
+  # devise_for :users, controllers: {sessions: "sessions"}, :skip => [:registrations]
+  devise_for :users, controllers: {sessions: "sessions", registrations: "users"}
 
+  # TODO make home redirect to listing of projects instead of login page
+  devise_scope :user do
+    #sign in and out temporarily
+    root :to => 'sessions#new'
+    get '/' => 'sessions#new'
+    get '/sessions/user' => 'sessions#new'
+    post '/sessions/user' => 'sessions#create'
+    delete '/sessions/user' => 'sessions#destroy'
+
+    get '/users/edit' => 'users#edit', :as => 'edit_user_registration'
+    put '/users/edit' => 'users#update', :as => 'user_registration'
+  end
+
+  # root :to => 'home#index'
+  # get '/' => 'home#index'
+  # root :to => 'sessions#new'
+  # get '/' => 'sessions#new'
 
   namespace :admin do
     get '/' => 'admin#index'
@@ -12,10 +29,10 @@ ChaiIo::Application.routes.draw do
     end
   end
 
+  resources :sessions
 
   get '/logout' => 'sessions#destroy'
   get '/r/:id/:hash' => 'reports#public'
-  resources :sessions
 
   get '/console' => 'console#index'
   post '/console/run' => 'console#run'
@@ -33,7 +50,7 @@ ChaiIo::Application.routes.draw do
   match '/datasources/test' => 'datasources#test', :via => :post
   resources :datasources
 
-  resources :users
+  # resources :users
   resources :projects
 
   resources :projects do

@@ -1,15 +1,15 @@
 source 'https://rubygems.org'
 
 # Manage environment variables easily (for development and testing) (needs to be at the top)
-# gem 'dotenv', '~> 2.1', '>= 2.1.1'
 gem 'dotenv-rails', :groups => [:development, :test]
 
-# gem 'rails', '4.0.0'
 gem 'rails', '4.2.6'
+
+# authentication
+gem 'devise', '~> 4.1', '>= 4.1.1'
 
 gem 'mysql2', '~> 0.3.18'
 gem 'sqlite3'
-# gem 'attr_encrypted'
 gem 'attr_encrypted', '~> 3.0', '>= 3.0.1'
 gem 'sequel'
 gem 'backbone-on-rails'

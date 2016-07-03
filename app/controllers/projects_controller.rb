@@ -12,10 +12,10 @@ class ProjectsController < DashboardController
     set_active_menu_item "projects"
 		@projects = current_user.projects.all
 	end
-	
 
-  
-	def new 
+
+
+	def new
 		@project = current_user.projects.build
 	end
 
@@ -43,7 +43,7 @@ class ProjectsController < DashboardController
    		@project = current_user.projects.find params[:id]
      	if @project.update_attributes project_params
        		redirect_to projects_path
-     	else 
+     	else
        		render :new
      	end
   end
